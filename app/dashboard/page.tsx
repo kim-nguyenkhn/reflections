@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { SimpleForm } from "@/components/SimpleForm";
 
 export default function Dashboard() {
   return (
     <div>
-      <Button onClick={() => console.log("hello")}>Click me</Button>
+      <SimpleForm />
     </div>
   );
 }
