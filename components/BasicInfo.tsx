@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "./ui/select";
 
-import { roles } from "@/app/data/data";
+import { roles, gustofiedTerms } from "@/app/data/data";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -31,18 +31,25 @@ const formSchema = z.object({
   }),
   role: z.string(),
   level: z.string(),
+  term: z.string(),
 });
 
 export function BasicInfo() {
   const initialRole = roles[0]?.type || "";
+  const initialTerm = gustofiedTerms[0]?.term || "";
   const [selectedRole, setSelectedRole] = useState<string>(initialRole);
+  const filteredLevels = selectedRole
+    ? roles.find((role) => role.type === selectedRole)?.levels || []
+    : [];
+  const initialLevel = filteredLevels[0] || "";
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       role: initialRole,
-      level: "",
+      level: initialLevel,
+      term: initialTerm,
     },
   });
 
@@ -59,10 +66,6 @@ export function BasicInfo() {
     form.setValue("role", value);
     form.setValue("level", ""); // Reset level when role changes
   };
-
-  const filteredLevels = selectedRole
-    ? roles.find((role) => role.type === selectedRole)?.levels || []
-    : [];
 
   return (
     <Form {...form}>
@@ -118,7 +121,7 @@ export function BasicInfo() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Level</FormLabel>
-              <Select onValueChange={field.onChange}>
+              <Select onValueChange={field.onChange} defaultValue={initialLevel}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select your level" />
@@ -128,6 +131,30 @@ export function BasicInfo() {
                   {filteredLevels.map((level, index) => (
                     <SelectItem key={index} value={level}>
                       {level}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="term"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>GustoFIED term</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={initialTerm}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select GustoFIED term" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {gustofiedTerms.map((term) => (
+                    <SelectItem key={term.id} value={term.term}>
+                      {term.term}
                     </SelectItem>
                   ))}
                 </SelectContent>
