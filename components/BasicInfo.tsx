@@ -37,11 +37,13 @@ const formSchema = z.object({
 export function BasicInfo() {
   const initialRole = roles[0]?.type || "";
   const initialTerm = gustofiedTerms[0]?.term || "";
+  const initialLevels =
+    roles.find((role) => role.type === initialRole)?.levels || [];
+  const initialLevel = initialLevels.length > 0 ? initialLevels[0] : "";
+
   const [selectedRole, setSelectedRole] = useState<string>(initialRole);
-  const filteredLevels = selectedRole
-    ? roles.find((role) => role.type === selectedRole)?.levels || []
-    : [];
-  const initialLevel = filteredLevels[0] || "";
+  const [selectedLevel, setSelectedLevel] = useState<string>(initialLevel);
+  const [filteredLevels, setFilteredLevels] = useState<string[]>(initialLevels);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,7 +57,8 @@ export function BasicInfo() {
 
   useEffect(() => {
     form.setValue("role", initialRole);
-  }, [initialRole, form]);
+    form.setValue("level", initialLevel);
+  }, [initialRole, initialLevel, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -64,7 +67,23 @@ export function BasicInfo() {
   const handleRoleChange = (value: string) => {
     setSelectedRole(value);
     form.setValue("role", value);
-    form.setValue("level", ""); // Reset level when role changes
+    const newLevels = roles.find((role) => role.type === value)?.levels || [];
+    setFilteredLevels(newLevels);
+
+    if (newLevels.includes(selectedLevel)) {
+      form.setValue("level", selectedLevel);
+    } else if (newLevels.length > 0) {
+      form.setValue("level", newLevels[0]);
+      setSelectedLevel(newLevels[0]);
+    } else {
+      form.setValue("level", "");
+      setSelectedLevel("");
+    }
+  };
+
+  const handleLevelChange = (value: string) => {
+    setSelectedLevel(value);
+    form.setValue("level", value);
   };
 
   return (
@@ -95,7 +114,7 @@ export function BasicInfo() {
                   handleRoleChange(value);
                   field.onChange(value);
                 }}
-                defaultValue={field.value}
+                value={selectedRole}
               >
                 <FormControl>
                   <SelectTrigger>
@@ -121,7 +140,13 @@ export function BasicInfo() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Level</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={initialLevel}>
+              <Select
+                onValueChange={(value) => {
+                  handleLevelChange(value);
+                  field.onChange(value);
+                }}
+                value={selectedLevel}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select your level" />
@@ -139,13 +164,14 @@ export function BasicInfo() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="term"
           render={({ field }) => (
             <FormItem>
               <FormLabel>GustoFIED term</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={initialTerm}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select GustoFIED term" />
