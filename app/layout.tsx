@@ -36,8 +36,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header/>
-          {children}
+          <Header />
+          <div className="container max-w-4xl mx-auto min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>

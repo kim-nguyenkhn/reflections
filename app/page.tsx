@@ -1,15 +1,26 @@
-import { Card } from "@/components/ui/card";
-import { BasicInfo} from "@/components/BasicInfo";
+import { BasicInfo } from "@/components/BasicInfo";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
 export default function Home() {
   return (
-    <div className="container max-w-4xl mx-auto min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div>
       <Card>
-        <div className="p-6">
-          <BasicInfo/>
-        </div>
-        
+        <CardHeader>
+          <CardTitle>A little about you</CardTitle>
+          <CardDescription>
+              We need a little information about you before me continue.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <BasicInfo />
+        </CardContent>
       </Card>
-      </div>
-        
+    </div>
   );
 }

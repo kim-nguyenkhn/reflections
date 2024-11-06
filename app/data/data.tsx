@@ -1,3 +1,6 @@
+
+
+
 export const roles = [
     {
         id: 1,
@@ -21,4 +24,27 @@ export const gustofiedTerms = [
         id: 2,
         term: "Oct 1 to March 31",
     },
+]
+
+export const slackChannels = [
+    {
+        id: 1,
+        name: "#emb-frontend-sdk",
+    },
+    {
+        id: 2,
+        name: "#emb-dev-portal",
+    },
+    {
+        id: 3,
+        name: "#emb-canada-epd",
+    },
+    {
+        id: 4,
+        name: "#emb-cx-portal",
+    },
+    {
+        id: 5,
+        name: "#emb-member-portal",
+    }
 ]

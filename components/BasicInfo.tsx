@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useRouter } from "next/navigation"; // Use next/navigation for client-side navigation
 
 import { Button } from "@/components/ui/button";
 import {
@@ -55,6 +56,8 @@ export function BasicInfo() {
     },
   });
 
+  const router = useRouter();
+
   useEffect(() => {
     form.setValue("role", initialRole);
     form.setValue("level", initialLevel);
@@ -62,6 +65,7 @@ export function BasicInfo() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    router.push("/authentication"); // Redirect to the authentication page
   }
 
   const handleRoleChange = (value: string) => {
