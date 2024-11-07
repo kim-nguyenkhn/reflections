@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { promptData } from "@/app/data/data";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object(
   promptData.reduce((acc, prompt) => {
@@ -24,12 +26,21 @@ const formSchema = z.object(
 );
 
 export function ProjectForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {},
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {}
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    console.log(values);
+    setTimeout(() => {
+      router.push("/summary-output");
+      setIsLoading(false);
+    }, 2000);
+  }
 
   return (
     <Form {...form}>
@@ -51,7 +62,9 @@ export function ProjectForm() {
           />
         ))}
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <Loader2 className="animate-spin" /> : "Submit"}
+        </Button>
       </form>
     </Form>
   );
