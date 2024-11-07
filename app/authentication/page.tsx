@@ -1,11 +1,18 @@
 "use client";
 
 import React from "react";
-import { Card, CardContent, CardTitle, CardDescription, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import AccountConnection from "@/components/AccountConnection";
 import { useSearchParams, useRouter } from "next/navigation";
-
+import { Loader2 } from "lucide-react"; // Import the Loader2 component
 const Page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -14,11 +21,16 @@ const Page = () => {
 
   const isSlackAllowed = slack === "true";
   const isGithubAllowed = github === "true";
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleContinue = () => {
-    console.log("Continue button clicked");
-    router.push("/channels");
-  }
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push("/new-project");
+    }, 2000);
+  };
 
   return (
     <div>
@@ -26,16 +38,18 @@ const Page = () => {
         <CardHeader>
           <CardTitle>Connect your accounts</CardTitle>
           <CardDescription>
-            We&apos;ll use your GitHub and Slack activity to help you summarize your contributions this cycle.
+            We&apos;ll use your GitHub and Slack activity to help you summarize
+            your contributions this cycle.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <AccountConnection />
         </CardContent>
         {isSlackAllowed && isGithubAllowed && (
-          <CardFooter className="flex justify-between">
-            <Button variant="outline" >Cancel</Button>
-            <Button onClick={handleContinue}>Continue</Button>
+          <CardFooter className="flex justify-start">
+            <Button onClick={handleContinue} disabled={isLoading}>
+              {isLoading ? <Loader2 className="animate-spin" /> : "Continue"}
+            </Button>
           </CardFooter>
         )}
       </Card>

@@ -48,3 +48,19 @@ export const slackChannels = [
         name: "#emb-member-portal",
     }
 ]
+
+export const promptData = [
+    {
+        id: "q1",
+        prompt: "What major technical or organizational challenges did you encounter?",
+    },
+    {
+        id: "q2",
+        prompt: "We're there any measurable outcomes or objectives set for the last six months? Understanding your progress toward these would give a clearer picture of project impact.",
+    },
+    {
+        id: "q3",
+        prompt: "If you collaborated with other teams outside of your immediate project group, do you have examples of how you navigated these relationships?",
+    },
+   
+]

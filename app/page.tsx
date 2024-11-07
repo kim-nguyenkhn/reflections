@@ -14,7 +14,7 @@ export default function Home() {
         <CardHeader>
           <CardTitle>A little about you</CardTitle>
           <CardDescription>
-              We need a little information about you before me continue.
+            We need a little information about you before me continue.
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useRouter } from "next/navigation"; // Use next/navigation for client-side navigation
-
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,6 +22,7 @@ import {
   SelectItem,
   SelectValue,
 } from "./ui/select";
+import { Loader2 } from "lucide-react"; // Import the Loader2 component
 
 import { roles, gustofiedTerms } from "@/app/data/data";
 
@@ -45,6 +45,7 @@ export function BasicInfo() {
   const [selectedRole, setSelectedRole] = useState<string>(initialRole);
   const [selectedLevel, setSelectedLevel] = useState<string>(initialLevel);
   const [filteredLevels, setFilteredLevels] = useState<string[]>(initialLevels);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,8 +65,13 @@ export function BasicInfo() {
   }, [initialRole, initialLevel, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true); // Set loading state to true
     console.log(values);
-    router.push("/authentication"); // Redirect to the authentication page
+    // Simulate a delay (e.g., API call)
+    setTimeout(() => {
+      setIsLoading(false); // Set loading state to false after delay
+      router.push("/authentication"); // Redirect to the authentication page
+    }, 2000); // 2-second delay
   }
 
   const handleRoleChange = (value: string) => {
@@ -194,7 +200,9 @@ export function BasicInfo() {
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <Loader2 className="animate-spin" /> : "Submit"}
+        </Button>
       </form>
     </Form>
   );
