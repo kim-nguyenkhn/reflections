@@ -28,7 +28,7 @@ import { roles, gustofiedTerms } from "@/app/data/data";
 
 const formSchema = z.object({
   name: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: "Name must be at least 2 characters.",
   }),
   role: z.string(),
   level: z.string(),
