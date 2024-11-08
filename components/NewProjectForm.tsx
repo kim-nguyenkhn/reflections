@@ -105,10 +105,10 @@ export function NewProjectForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      ProjectName: "",
+      ProjectName: "React Frontend SDK",
       channels: "",
       repos: "",
-      description: "",
+      description: "A set of super cool developer tools that make it super easy to build a payroll experience. Gusto partners are now able to build a functional product much faster.",
     },
   });
 

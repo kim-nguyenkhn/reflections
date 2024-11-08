@@ -13,6 +13,8 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
+import { CheckCircle } from "lucide-react";
+import Image from "next/image";
 
 export default function AccountConnection() {
   const [isSlackAllowed, setIsSlackAllowed] = useState(false);
@@ -34,7 +36,7 @@ export default function AccountConnection() {
   return (
     <div className="flex flex-col gap-3">
       <div className="border shadow-sm rounded-md p-4 flex items-center justify-between">
-        <div>
+        <div className="mr-4">
           <div className="font-medium">Slack</div>
           <div className="text-muted-foreground">
             Summarize your contributions using channel activity.
@@ -46,7 +48,7 @@ export default function AccountConnection() {
         />
       </div>
       <div className="border shadow-sm rounded-md p-4 flex items-center justify-between">
-        <div>
+        <div className="mr-4">
           <div className="font-medium">Github</div>
           <div className="text-muted-foreground">
             Use your code contributions to summarize your work.
@@ -74,7 +76,10 @@ const SlackDialog: React.FC<SlackDialogProps> = ({
     <Dialog>
       <DialogTrigger asChild>
         {isSlackAllowed ? (
-          <div>Connected</div>
+          <div className="flex items-center gap-2 text-[#2EB67D] font-medium">
+            <CheckCircle />
+            <div>Connected</div>
+          </div>
         ) : (
           <Button variant="outline">Connect</Button>
         )}
@@ -88,6 +93,7 @@ const SlackDialog: React.FC<SlackDialogProps> = ({
             What will gusto be able to view?
           </DialogDescription>
         </DialogHeader>
+
         <ul className="list-disc list-inside">
           <li>Your name and email address</li>
           <li>Content and info about channels and conversations</li>
@@ -117,7 +123,10 @@ const GithubDialog: React.FC<GithubDialogProps> = ({
     <Dialog>
       <DialogTrigger asChild>
         {isGithubAllowed ? (
-          <div>Connected</div>
+          <div className="flex items-center gap-2 text-[#2EB67D] font-medium">
+            <CheckCircle />
+            <div>Connected</div>
+          </div>
         ) : (
           <Button variant="outline">Connect</Button>
         )}
@@ -131,6 +140,7 @@ const GithubDialog: React.FC<GithubDialogProps> = ({
             What will gusto be able to view?
           </DialogDescription>
         </DialogHeader>
+
         <ul className="list-disc list-inside">
           <li>Your repositories</li>
           <li>Your commits</li>

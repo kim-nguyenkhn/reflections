@@ -28,9 +28,16 @@ const formSchema = z.object(
 export function ProjectForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  // Initialize default values from promptData
+  const defaultValues = promptData.reduce((acc, prompt) => {
+    acc[prompt.id] = prompt.defaultValue || "";
+    return acc;
+  }, {} as Record<string, string>);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {},
+    defaultValues,
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -54,7 +61,7 @@ export function ProjectForm() {
               <FormItem>
                 <FormLabel>{prompt.prompt}</FormLabel>
                 <FormControl>
-                  <Textarea {...field} />
+                  <Textarea className="h-[200px]" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
